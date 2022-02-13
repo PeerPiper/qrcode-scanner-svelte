@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { stream, error, status } from '$lib/stores.js';
+	import { stream, error, status } from '../stores.js';
 
 	const isMediaStream = (
 		candidate: MediaStream | MediaSource | Blob | null

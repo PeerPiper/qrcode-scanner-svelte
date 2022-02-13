@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { stream, error, status } from '$lib/stores.js';
+	import { stream, error, status } from '../stores.js';
 
 	import jsQR from 'jsqr';
 
