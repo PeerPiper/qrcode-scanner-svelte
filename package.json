@@ -1,6 +1,6 @@
 {
 	"name": "qrcode-scanner-svelte",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"svelte": "src/lib/index.js",
 	"scripts": {
 		"dev": "svelte-kit dev",
