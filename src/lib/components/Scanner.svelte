@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, createEventDispatcher } from 'svelte';
 	import { stream, error, status } from '../stores.js';
 
 	import jsQR from 'jsqr';
@@ -10,6 +10,8 @@
 	import UserMedia from '../utils/use-usermedia.svelte';
 
 	export let result = null; // : string
+
+	const dispatch = createEventDispatcher();
 
 	$: active = !result;
 
@@ -24,10 +26,6 @@
 	});
 
 	$: if (mounted) ({ stopMediaStream, startMediaStream } = useUserMedia());
-
-	const onSuccessfulScan = (data: string) => {
-		result = data;
-	};
 
 	const startCapturing = (): void => {
 		console.log('Starting capture');
@@ -55,7 +53,8 @@
 			console.log('problem');
 			setTimeout(startCapturing, 750);
 		} else {
-			onSuccessfulScan(qrCode.data);
+			result = qrCode.data;
+			dispatch('successfulScan', qrCode.data);
 
 			stopMediaStream();
 			video.srcObject = null;
