@@ -14,25 +14,27 @@
 	}
 </script>
 
-<div class="results">
-	<div class="results__data">
-		{#if !decodedData || decodedData === ''}
-			<span class="results__empty">Scan a QR Code to send data here. </span>
-		{:else if decodedData?.match(regex)}
-			<a class="results__link" href={decodedData} target="_blank" rel="noopener noreferrer">
-				{decodedData}
-			</a>
-		{:else if decodedData}
-			{decodedData};
-		{/if}
+<slot {decodedData}>
+	<div class="results">
+		<div class="results__data">
+			{#if !decodedData || decodedData === ''}
+				<span class="results__empty">Scan a QR Code to send data here. </span>
+			{:else if decodedData?.match(regex)}
+				<a class="results__link" href={decodedData} target="_blank" rel="noopener noreferrer">
+					{decodedData}
+				</a>
+			{:else if decodedData}
+				{decodedData};
+			{/if}
+		</div>
+		<div class="results__button-container">
+			<button type="button" class="results__button" on:click={onNewScan}>
+				<img class="results__scan-icon" src={scanIcon} alt="New Scan" />
+				<span>New Scan</span>
+			</button>
+		</div>
 	</div>
-	<div class="results__button-container">
-		<button type="button" class="results__button" on:click={onNewScan}>
-			<img class="results__scan-icon" src={scanIcon} alt="New Scan" />
-			<span>New Scan</span>
-		</button>
-	</div>
-</div>
+</slot>
 
 <style>
 	.results {
