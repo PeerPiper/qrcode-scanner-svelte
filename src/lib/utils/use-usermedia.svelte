@@ -1,5 +1,18 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { stream, error, status } from '../stores.js';
+
+	let mounted;
+
+	onMount(() => {
+		mounted = true;
+
+		return () => {
+			console.log('stop Component destroyed');
+
+			// stopMedia();
+		};
+	});
 
 	const isMediaStream = (
 		candidate: MediaStream | MediaSource | Blob | null
@@ -53,19 +66,22 @@
 				});
 		};
 
-		const stopMediaStream = (): void => {
-			console.log('stopping media stream');
-
-			if (isMediaStream($stream)) {
-				$stream.getTracks().forEach((track) => {
-					track.stop();
-					$stream.removeTrack(track);
-				});
-
-				setStatus('stopped');
-			}
-		};
-
+		const stopMediaStream = stopMedia;
 		return { stopMediaStream, startMediaStream };
 	};
+
+	function stopMedia(): void {
+		console.log('stopping media stream');
+
+		if (isMediaStream($stream)) {
+			$stream.getTracks().forEach((track) => {
+				track.stop();
+				$stream.removeTrack(track);
+			});
+
+			console.log({ streams: $stream });
+
+			setStatus('stopped');
+		}
+	}
 </script>

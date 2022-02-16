@@ -10,6 +10,8 @@
 	import UserMedia from '../utils/use-usermedia.svelte';
 
 	export let result = null; // : string
+	export let stopMediaStream = null;
+	let startMediaStream;
 
 	const dispatch = createEventDispatcher();
 
@@ -17,30 +19,27 @@
 
 	let video: HTMLVideoElement = null;
 	let canvas: HTMLCanvasElement = null;
-	let stopMediaStream, startMediaStream;
 	let useUserMedia;
 	let mounted;
 
-	onMount(async () => {
+	onMount(() => {
 		mounted = true;
+
+		({ stopMediaStream, startMediaStream } = useUserMedia());
+
+		return () => {
+			console.log('Component destroyed');
+			stopMediaStream();
+			video.srcObject = null;
+		};
 	});
 
-	$: if (mounted) ({ stopMediaStream, startMediaStream } = useUserMedia());
-
 	const startCapturing = (): void => {
-		console.log('Starting capture');
-		if (canvas === null || canvas === null || video === null || video === null) {
-			console.log('problem');
-
-			return;
-		}
+		if (!canvas || !video) return;
 
 		const context = canvas.getContext('2d');
 
-		if (context === null) {
-			console.log('problem');
-			return;
-		}
+		if (!context) return;
 
 		const { width, height } = canvas;
 
@@ -50,7 +49,7 @@
 		const qrCode = jsQR(imageData.data, width, height);
 
 		if (qrCode === null) {
-			console.log('problem');
+			console.log('timeout');
 			setTimeout(startCapturing, 750);
 		} else {
 			result = qrCode.data;
@@ -83,7 +82,7 @@
 		video.play().catch(console.error);
 	}
 
-	$: if (active && $status === 'stopped') {
+	$: if (active && $status === 'stopped' && startMediaStream) {
 		startMediaStream();
 	}
 </script>
