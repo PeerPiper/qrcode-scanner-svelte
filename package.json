@@ -1,9 +1,9 @@
 {
-	"name": "qrcode-scanner-svelte",
-	"version": "1.0.4",
-	"svelte": "src/lib/index.js",
-	"main": "src/lib/index.js",
-	"module": "src/lib/index.js",
+	"name": "@peerpiper/qrcode-scanner-svelte",
+	"version": "1.0.5",
+	"svelte": "index.js",
+	"main": "index.js",
+	"module": "index.js",
 	"scripts": {
 		"dev": "svelte-kit dev",
 		"build": "svelte-kit build",
