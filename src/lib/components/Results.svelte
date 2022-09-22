@@ -1,5 +1,5 @@
 <script lang="ts">
-	import scanIcon from '../assets/scan.svg';
+	// import scanIcon from '../assets/scan.svg';
 
 	export let active: boolean;
 	export let decodedData: string;
@@ -29,7 +29,7 @@
 		</div>
 		<div class="results__button-container">
 			<button type="button" class="results__button" on:click={onNewScan}>
-				<img class="results__scan-icon" src={scanIcon} alt="New Scan" />
+				<!-- <img class="results__scan-icon" src={scanIcon} alt="New Scan" /> -->
 				<span>New Scan</span>
 			</button>
 		</div>
